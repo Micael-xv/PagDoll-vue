@@ -3,10 +3,14 @@
     <v-row>
       <v-col>
         <v-card
-          title="Cotação do Dólar"
+          title="Cotação de Moedas"
           subtitle="Dólar"
           variant="outlined"
-        />
+        >
+          <v-card-text>
+            <p style="font-weight: bold; color: white;">Compra: {{ dolar.bid }}</p>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -16,22 +20,22 @@
 export default {
   data() {
     return {
-      dolar: [],
+      dolar: {},
     };
   },
+
   async created() {
     await this.getDolar();
   },
+
   methods: {
     async getDolar() {
       try {
         const response = await this.$api.get("/USD-BRL");
-        this.dolar = response;
-        console.log('kick',this.items);
+        this.dolar = response.USDBRL;
+        console.log('kick',this.dolar);
       } catch (error) {
-        this.$toast.error(
-          "Error"
-        );
+        console.error(error);
       }
     },
   },
