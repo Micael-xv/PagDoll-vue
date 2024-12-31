@@ -20,6 +20,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["vuetify-nuxt-module", '@nuxt/eslint'],
   plugins: ['~/plugins/axios.js'],
+
   vuetify: {
     /* vuetify options */
     vuetifyOptions: {
@@ -42,4 +43,6 @@ export default defineNuxtConfig({
       useVuetifyLabs: true || false,
     },
   },
+
+  compatibilityDate: '2024-12-31',
 })

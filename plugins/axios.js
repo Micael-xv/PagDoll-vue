@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default defineNuxtPlugin(() => {
-  // const domain = 'http://localhost:3333/'
+  const domain = 'https://economia.awesomeapi.com.br/json/last/';
 
   let api = axios.create({
     baseURL: domain,
