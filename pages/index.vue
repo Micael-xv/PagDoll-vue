@@ -45,6 +45,7 @@ export default {
     await this.getDolar();
     await this.getEuro();
     await this.getBitcoin();
+    this.setTimeout();
   },
 
   methods: {
@@ -65,6 +66,7 @@ export default {
       await this.getEuro();
       await this.getBitcoin();
       await this.getDolar();
+      this.setTimeout();
       this.$toast.success('atualizada a cada 30s');
     },
 
