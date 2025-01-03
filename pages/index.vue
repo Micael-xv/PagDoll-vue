@@ -52,7 +52,7 @@ export default {
       await this.getDolar();
       await this.getEuro();
       await this.getBitcoin();
-      console.log('Atualizado');
+      this.$toast.success('Cotações atualizadas com sucesso!');
     },
 
     async getDolar() {
