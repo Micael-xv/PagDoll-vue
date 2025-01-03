@@ -14,9 +14,9 @@
             <p style="font-weight: bold; color: white;">
               Euro: {{ formatMoney(euro.bid) }}
             </p>
-            <!-- <p style="font-weight: bold; color: white;">
+            <p style="font-weight: bold; color: white;">
               Bitcoin: {{ bitcoin.bid }}
-            </p> -->
+            </p>
           </v-card-text>
         </v-card>
       </v-col>
@@ -30,7 +30,7 @@ export default {
     return {
       dolar: {},
       euro: {},
-      bitcoin: null,
+      bitcoin: {},
     };
   },
 
