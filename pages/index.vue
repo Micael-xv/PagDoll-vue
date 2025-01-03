@@ -55,6 +55,19 @@ export default {
       this.$toast.success('Cotações atualizadas com sucesso!');
     },
 
+    setTimeout() {
+      setTimeout(() => {
+        this.updateRecurring();
+      }, 30000);
+    },
+
+    async updateRecurring() {
+      await this.getEuro();
+      await this.getBitcoin();
+      await this.getDolar();
+      this.$toast.success('atualizada a cada 30s');
+    },
+
     async getDolar() {
       try {
         const response = await this.$api.get("/USD-BRL");
