@@ -11,7 +11,20 @@
       <v-col>
         <v-card
           title="Cotação de Moedas"
-          subtitle="Dólar"
+          subtitle="Real"
+          variant="outlined"
+        >
+          <v-card-text>
+            <p style="font-weight: bold; color: white;">
+              aqui
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card
+          title="Cotação de Moedas"
+          subtitle="Real"
           variant="outlined"
         >
           <v-card-text>
