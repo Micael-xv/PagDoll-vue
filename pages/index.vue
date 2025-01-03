@@ -1,6 +1,13 @@
 <template>
   <v-container>
     <v-row>
+      <v-col class="d-flex justify-end">
+        <v-btn color="green" variant="outlined" @click="updated">
+          Atualizar
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col>
         <v-card
           title="Cotação de Moedas"
@@ -15,7 +22,7 @@
               Euro: R$ {{ formatMoney(euro.bid) }}
             </p>
             <p style="font-weight: bold; color: white;">
-              Bitcoin: USD {{ bitcoin.bid }}
+              Bitcoin: USD {{ formatMoney(bitcoin.bid) }}
             </p>
           </v-card-text>
         </v-card>
@@ -41,6 +48,13 @@ export default {
   },
 
   methods: {
+    async updated() {
+      await this.getDolar();
+      await this.getEuro();
+      await this.getBitcoin();
+      console.log('Atualizado');
+    },
+
     async getDolar() {
       try {
         const response = await this.$api.get("/USD-BRL");
