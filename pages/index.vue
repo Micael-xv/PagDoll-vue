@@ -9,14 +9,14 @@
         >
           <v-card-text>
             <p style="font-weight: bold; color: white;">
-              Dólar: {{ formatDolar(dolar.ask) }}
+              Dólar: {{ formatMoney(dolar.bid) }}
             </p>
             <p style="font-weight: bold; color: white;">
-              Euro: {{ formatDolar(euro.ask) }}
+              Euro: {{ formatMoney(euro.bid) }}
             </p>
-            <p style="font-weight: bold; color: white;">
-              Bitcoin: {{ bitcoin.ask }}
-            </p>
+            <!-- <p style="font-weight: bold; color: white;">
+              Bitcoin: {{ bitcoin.bid }}
+            </p> -->
           </v-card-text>
         </v-card>
       </v-col>
@@ -30,12 +30,14 @@ export default {
     return {
       dolar: {},
       euro: {},
+      bitcoin: null,
     };
   },
 
   async created() {
     await this.getDolar();
     await this.getEuro();
+    await this.getBitcoin();
   },
 
   methods: {
@@ -57,7 +59,16 @@ export default {
       }
     },
 
-    formatDolar(value) {
+    async getBitcoin() {
+      try {
+        const response = await this.$api.get("/BTC-USD");
+        this.euro = response.EURBRL;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    formatMoney(value) {
       if (value && !isNaN(value)) {
         return parseFloat(value).toFixed(2);
       }
