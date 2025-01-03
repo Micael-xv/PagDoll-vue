@@ -9,13 +9,13 @@
         >
           <v-card-text>
             <p style="font-weight: bold; color: white;">
-              Dólar: {{ formatMoney(dolar.bid) }}
+              Dólar: R$ {{ formatMoney(dolar.bid) }}
             </p>
             <p style="font-weight: bold; color: white;">
-              Euro: {{ formatMoney(euro.bid) }}
+              Euro: R$ {{ formatMoney(euro.bid) }}
             </p>
             <p style="font-weight: bold; color: white;">
-              Bitcoin: {{ bitcoin.bid }}
+              Bitcoin: USD {{ bitcoin.bid }}
             </p>
           </v-card-text>
         </v-card>
@@ -62,7 +62,7 @@ export default {
     async getBitcoin() {
       try {
         const response = await this.$api.get("/BTC-USD");
-        this.euro = response.EURBRL;
+        this.bitcoin = response.BTCUSD;
       } catch (error) {
         console.error(error);
       }
