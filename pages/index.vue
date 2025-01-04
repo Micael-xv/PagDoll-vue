@@ -15,9 +15,16 @@
             subtitle="Real"
           >
             <v-card-text>
-              <p style="font-weight: bold; color: black;">
-                aqui
-              </p>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                  />
+                </v-col>
+                <v-col>
+                  <v-text-field
+                  />
+                </v-col>
+              </v-row>
             </v-card-text>
           </v-card>
         </v-col>
