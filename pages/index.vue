@@ -2,6 +2,11 @@
   <v-app style="background-color: #fefefe;">
     <v-container>
       <v-row>
+        <v-col>
+          <h1 style="color: #000;">Cotação atualizada a cada 30 segundos</h1>
+        </v-col>
+      </v-row>
+      <v-row>
         <v-col class="d-flex justify-end">
           <v-btn color="green" variant="outlined" @click="updated">
             Atualizar
@@ -18,10 +23,12 @@
               <v-row>
                 <v-col>
                   <v-text-field
+                    label="Adicionar um valor"
                   />
                 </v-col>
                 <v-col>
                   <v-text-field
+                    label="Valor convertido"
                   />
                 </v-col>
               </v-row>
