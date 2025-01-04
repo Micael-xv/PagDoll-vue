@@ -1,47 +1,47 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col class="d-flex justify-end">
-        <v-btn color="green" variant="outlined" @click="updated">
-          Atualizar
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-card
-          title="Cotação de Moedas"
-          subtitle="Real"
-          variant="outlined"
-        >
-          <v-card-text>
-            <p style="font-weight: bold; color: white;">
-              aqui
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card
-          title="Cotação de Moedas"
-          subtitle="Real"
-          variant="outlined"
-        >
-          <v-card-text>
-            <p style="font-weight: bold; color: white;">
-              Dólar: R$ {{ formatMoney(dolar.bid) }}
-            </p>
-            <p style="font-weight: bold; color: white;">
-              Euro: R$ {{ formatMoney(euro.bid) }}
-            </p>
-            <p style="font-weight: bold; color: white;">
-              Bitcoin: USD {{ formatMoney(bitcoin.bid) }}
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-app style="background-color: #fefefe;">
+    <v-container>
+      <v-row>
+        <v-col class="d-flex justify-end">
+          <v-btn color="green" variant="outlined" @click="updated">
+            Atualizar
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card
+            title="Cotação de Moedas"
+            subtitle="Real"
+          >
+            <v-card-text>
+              <p style="font-weight: bold; color: black;">
+                aqui
+              </p>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card
+            title="Cotação de Moedas"
+            subtitle="Real"
+          >
+            <v-card-text>
+              <p style="font-weight: bold;">
+                Dólar: R$ {{ formatMoney(dolar.bid) }}
+              </p>
+              <p style="font-weight: bold;">
+                Euro: R$ {{ formatMoney(euro.bid) }}
+              </p>
+              <p style="font-weight: bold;">
+                Bitcoin: USD {{ formatMoney(bitcoin.bid) }}
+              </p>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
