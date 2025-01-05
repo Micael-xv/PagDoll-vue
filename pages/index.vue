@@ -170,7 +170,7 @@ export default {
       } else if (this.selectedCurrency === 'Euro') {
         rate = this.euro.bid;
       } else if (this.selectedCurrency === 'Bitcoin') {
-        rate = this.bitcoin.bid;
+        rate = this.bitcoin.bid * this.dolar.bid;
       }
 
       if (rate) {
