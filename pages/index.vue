@@ -27,7 +27,7 @@
                     clearable
                     variant="outlined"
                     label="Selecione uma moeda"
-                    :items="['Dólar', 'Euro', 'Bitcoin']"
+                    :items="['Dólar para Real', 'Euro para Real', 'Bitcoin para Real', 'Bitcoin para Dólar', 'Real para Dólar', 'Real para Bitcoin', 'Real para Euro']"
                     @change="updateCotacao"
                   />
                 </v-col>
@@ -165,12 +165,20 @@ export default {
       }
       
       let rate;
-      if (this.selectedCurrency === 'Dólar') {
+      if (this.selectedCurrency === 'Dólar para Real') {
         rate = this.dolar.bid;
-      } else if (this.selectedCurrency === 'Euro') {
+      } else if (this.selectedCurrency === 'Euro para Real') {
         rate = this.euro.bid;
-      } else if (this.selectedCurrency === 'Bitcoin') {
+      } else if (this.selectedCurrency === 'Bitcoin para Real') {
         rate = this.bitcoin.bid * this.dolar.bid;
+      } else if (this.selectedCurrency === 'Bitcoin para Dólar') {
+        rate = this.bitcoin.bid;
+      } else if (this.selectedCurrency === 'Real para Dólar') {
+        rate = 1 / this.dolar.bid;
+        } else if (this.selectedCurrency === 'Real para Bitcoin') {
+        rate = 1 / (this.bitcoin.bid * this.dolar.bid);
+      } else if (this.selectedCurrency === 'Real para Euro') {
+        rate = 1 / this.euro.bid;
       }
 
       if (rate) {
