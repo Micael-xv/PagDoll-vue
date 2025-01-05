@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col>
-          <h1 style="color: #000;">Cotação atualizada a cada 30 segundos</h1>
+          <h1 class="d-flex justify-center" style="color: #000;">Cotação atualizada a cada 30 segundos</h1>
         </v-col>
       </v-row>
       <v-row>
@@ -22,13 +22,23 @@
             <v-card-text>
               <v-row>
                 <v-col>
-                  <v-text-field
-                    label="Adicionar um valor"
+                  <v-autocomplete
+                    clearable
+                    label="Selecione uma moeda"
+                    :items="['Dólar', 'Euro', 'Bitcoin']"
                   />
                 </v-col>
                 <v-col>
                   <v-text-field
-                    label="Valor convertido"
+                    label="Adicione um valor"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    label="Valor"
+                    readonly
                   />
                 </v-col>
               </v-row>
@@ -65,6 +75,7 @@ export default {
       dolar: {},
       euro: {},
       bitcoin: {},
+      items: [],
     };
   },
 
