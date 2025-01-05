@@ -23,22 +23,33 @@
               <v-row>
                 <v-col>
                   <v-autocomplete
+                    v-model="selectedCurrency"
                     clearable
+                    variant="outlined"
                     label="Selecione uma moeda"
                     :items="['Dólar', 'Euro', 'Bitcoin']"
+                    @change="updateCotacao"
                   />
                 </v-col>
                 <v-col>
                   <v-text-field
+                    v-model="amount"
+                    variant="outlined"
                     label="Adicione um valor"
+                    @input="calculateTotal"
                   />
                 </v-col>
               </v-row>
               <v-row>
+                <v-col cols=2>
+                  <p class="mt-2">Total R$: </p>
+                </v-col>
                 <v-col>
                   <v-text-field
-                    label="Valor"
                     readonly
+                    :value="total"
+                    variant="solo"
+                    density="compact"
                   />
                 </v-col>
               </v-row>
@@ -75,7 +86,9 @@ export default {
       dolar: {},
       euro: {},
       bitcoin: {},
-      items: [],
+      selectedCurrency: '',
+      amount: null,
+      total: null,
     };
   },
 
@@ -112,7 +125,7 @@ export default {
         const response = await this.$api.get("/USD-BRL");
         this.dolar = response.USDBRL;
       } catch (error) {
-        console.error(error);
+        console.error('Erro ao buscar cotação do dólar', error);
       }
     },
 
@@ -121,7 +134,7 @@ export default {
         const response = await this.$api.get("/EUR-BRL");
         this.euro = response.EURBRL;
       } catch (error) {
-        console.error(error);
+        console.error('Erro ao buscar cotação do euro', error);
       }
     },
 
@@ -130,7 +143,7 @@ export default {
         const response = await this.$api.get("/BTC-USD");
         this.bitcoin = response.BTCUSD;
       } catch (error) {
-        console.error(error);
+        console.error('Erro ao buscar cotação do bitcoin', error);
       }
     },
 
@@ -139,6 +152,30 @@ export default {
         return parseFloat(value).toFixed(2);
       }
       return 'Carregando...';
+    },
+
+    updateCotacao() {
+      this.calculateTotal();
+    },
+
+    calculateTotal() {
+      if (!this.amount || !this.selectedCurrency) {
+        this.total = null;
+        return;
+      }
+      
+      let rate;
+      if (this.selectedCurrency === 'Dólar') {
+        rate = this.dolar.bid;
+      } else if (this.selectedCurrency === 'Euro') {
+        rate = this.euro.bid;
+      } else if (this.selectedCurrency === 'Bitcoin') {
+        rate = this.bitcoin.bid;
+      }
+
+      if (rate) {
+        this.total = this.amount * rate;
+      }
     },
   },
 };
