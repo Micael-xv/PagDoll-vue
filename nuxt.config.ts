@@ -1,5 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-
 const temaCustomizado = {
   dark: true,
   colors: {
@@ -28,6 +27,15 @@ export default defineNuxtConfig({
         defaultTheme: 'temaCustomizado',
         themes: {
           temaCustomizado,
+        },
+        breakpoints: {
+          thresholds: {
+            xs: 360,
+            sm: 600, 
+            md: 960,
+            lg: 1280,
+            xl: 1920,
+          },
         },
       },
     },

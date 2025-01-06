@@ -1,37 +1,50 @@
 <template>
-  <v-app style="background-color: #fefefe;">
+  <v-app style="background-color: #f0f4f8;">
     <v-container>
-      <v-row>
+      <v-row class="mb-5">
         <v-col>
-          <h1 class="d-flex justify-center" style="color: #000;">Cotação atualizada a cada 30 segundos</h1>
+          <h1 class="text-h4 text-center font-weight-bold" style="color: #333;">
+            Cotação Atualizada a Cada 30 Segundos
+          </h1>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col class="d-flex justify-end">
-          <v-btn color="green" variant="outlined" @click="updated">
-            Atualizar
-          </v-btn>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-card
-            title="Cotação de Moedas"
-            subtitle="Real"
-          >
+
+      <v-row class="mb-5">
+        <v-col cols="12" md="8" class="mx-auto">
+          <v-card outlined>
+            <v-row>
+              <v-col>
+                <v-card-title class="font-weight-bold">Conversor de Moedas</v-card-title>
+                <v-card-subtitle>Real</v-card-subtitle>
+              </v-col>
+              <v-col class="d-flex justify-end">
+                <v-btn icon="mdi-refresh" color="success" variant="elevated" class="mr-2 mt-2" @click="updated">
+                  <v-icon left>mdi-refresh</v-icon>
+                </v-btn>
+              </v-col>
+
+            </v-row>
             <v-card-text>
               <v-row>
-                <v-col>
+                <v-col cols="12" md="6">
                   <v-autocomplete
                     v-model="selectedCurrency"
                     clearable
                     variant="outlined"
                     label="Selecione uma moeda"
-                    :items="['Dólar para Real', 'Euro para Real', 'Bitcoin para Real', 'Bitcoin para Dólar', 'Real para Dólar', 'Real para Bitcoin', 'Real para Euro']"
+                    :items="[
+                      'Dólar para Real',
+                      'Euro para Real',
+                      'Bitcoin para Real',
+                      'Bitcoin para Dólar',
+                      'Real para Dólar',
+                      'Real para Bitcoin',
+                      'Real para Euro'
+                    ]"
                     @change="updateCotacao"
                   />
                 </v-col>
-                <v-col>
+                <v-col cols="12" md="6">
                   <v-text-field
                     v-model="amount"
                     variant="outlined"
@@ -41,10 +54,10 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col cols=2>
-                  <p class="mt-2">Total R$: </p>
+                <v-col cols="12" md="2" class="d-flex align-center mt-n4">
+                  <p class="font-weight-bold">Total R$:</p>
                 </v-col>
-                <v-col>
+                <v-col cols="12" md="10">
                   <v-text-field
                     readonly
                     :value="total"
@@ -56,21 +69,17 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col>
-          <v-card
-            title="Cotação de Moedas"
-            subtitle="Real"
-          >
+      </v-row>
+
+      <v-row class="d-flx justify-center">
+        <v-col cols="12" md="6">
+          <v-card outlined class="mb-4">
+            <v-card-title class="font-weight-bold">Cotação de Moedas</v-card-title>
+            <v-card-subtitle>Atualizações em Tempo Real</v-card-subtitle>
             <v-card-text>
-              <p style="font-weight: bold;">
-                Dólar: R$ {{ formatMoney(dolar.bid) }}
-              </p>
-              <p style="font-weight: bold;">
-                Euro: R$ {{ formatMoney(euro.bid) }}
-              </p>
-              <p style="font-weight: bold;">
-                Bitcoin: USD {{ formatMoney(bitcoin.bid) }}
-              </p>
+              <p class="font-weight-bold">Dólar: R$ {{ formatMoney(dolar.bid) }}</p>
+              <p class="font-weight-bold">Euro: R$ {{ formatMoney(euro.bid) }}</p>
+              <p class="font-weight-bold">Bitcoin: USD {{ formatMoney(bitcoin.bid) }}</p>
             </v-card-text>
           </v-card>
         </v-col>
@@ -163,7 +172,7 @@ export default {
         this.total = null;
         return;
       }
-      
+
       let rate;
       if (this.selectedCurrency === 'Dólar para Real') {
         rate = this.dolar.bid;
@@ -175,7 +184,7 @@ export default {
         rate = this.bitcoin.bid;
       } else if (this.selectedCurrency === 'Real para Dólar') {
         rate = 1 / this.dolar.bid;
-        } else if (this.selectedCurrency === 'Real para Bitcoin') {
+      } else if (this.selectedCurrency === 'Real para Bitcoin') {
         rate = 1 / (this.bitcoin.bid * this.dolar.bid);
       } else if (this.selectedCurrency === 'Real para Euro') {
         rate = 1 / this.euro.bid;
