@@ -3,7 +3,7 @@
     <v-container>
       <v-row class="mb-5">
         <v-col>
-          <h1 class="text-h4 text-center font-weight-bold" style="color: #333;">
+          <h1 v-if="sm" class="text-h4 text-center font-weight-bold" style="color: #333;">
             Cotação Atualizada a Cada 30 Segundos
           </h1>
         </v-col>
@@ -87,6 +87,20 @@
     </v-container>
   </v-app>
 </template>
+
+<script setup>
+import { useDisplay } from "vuetify";
+const { sm } = useDisplay();
+
+useHead({
+  title: `Conversor de Moedas`,
+  meta: [{ 
+    name: 'description', 
+    content: 'Conversor de Moedas' },
+  ],
+})
+</script>
+
 
 <script>
 export default {
