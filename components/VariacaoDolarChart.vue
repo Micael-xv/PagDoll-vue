@@ -19,10 +19,8 @@
           @change="fetchChartData"
         />
       </v-col>
-      <v-col cols="1" class="d-flex justify-end mt-3 mr-3" @click="fetchChartData">
-        <v-btn>
-          <v-icon>mdi-refresh</v-icon>
-        </v-btn>
+      <v-col cols="1" class="d-flex justify-end mt-3 mr-3">
+        <v-btn icon="mdi-refresh" color="success" @click="fetchChartData"/>
       </v-col>
     </v-row>
     <v-row>
