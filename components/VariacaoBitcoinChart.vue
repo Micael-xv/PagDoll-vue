@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-card-title class="font-weight-bold">
-          Variação do Dólar (últimos {{ numero_dias }} dias)
+          Variação do Bitcoin (últimos {{ numero_dias }} dias)
         </v-card-title>
       </v-col>
       <v-col cols="3">
@@ -75,7 +75,7 @@ const fetchChartData = async () => {
 
     // Requisição para buscar as cotações da API
     const response = await axios.get(
-      `https://economia.awesomeapi.com.br/json/daily/USD-BRL/${numero_dias.value}`
+      `https://economia.awesomeapi.com.br/json/daily/BTC-USD/${numero_dias.value}`
     );
 
     // Processar os dados para obter os labels (datas) e os valores (ask)
@@ -83,7 +83,7 @@ const fetchChartData = async () => {
       const date = new Date(item.timestamp * 1000); // Converter timestamp para data
       return date.toLocaleDateString("pt-BR"); // Formatar a data no formato legível
     });
-    const data = response.data.map((item) => parseFloat(item.bid)); // Usar o valor "ask" como exemplo
+    const data = response.data.map((item) => parseFloat(item.ask)); // Usar o valor "ask" como exemplo
 
     // Se já existir uma instância do gráfico, destrói para criar um novo
     if (chartInstance.value) {
@@ -104,7 +104,7 @@ const fetchChartData = async () => {
         labels: labels,
         datasets: [
           {
-            label: "Dólar (BRL)",
+            label: "Bitcoin (BRL)",
             data: data,
             borderColor: "#42A5F5",
             backgroundColor: "rgba(66, 165, 245, 0.2)",
@@ -121,7 +121,7 @@ const fetchChartData = async () => {
           tooltip: {
             callbacks: {
               label: function (tooltipItem) {
-                return "R$ " + tooltipItem.raw.toFixed(2);
+                return "USD " + tooltipItem.raw.toFixed(2);
               },
             },
           },
@@ -140,7 +140,7 @@ const fetchChartData = async () => {
             beginAtZero: false,
             ticks: {
               callback: function (value) {
-                return "R$ " + value.toFixed(2);
+                return "USD " + value.toFixed(2);
               },
             },
           },

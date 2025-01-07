@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-card-title class="font-weight-bold">
-          Variação do Dólar (últimos {{ numero_dias }} dias)
+          Variação do Euro (últimos {{ numero_dias }} dias)
         </v-card-title>
       </v-col>
       <v-col cols="3">
@@ -75,7 +75,7 @@ const fetchChartData = async () => {
 
     // Requisição para buscar as cotações da API
     const response = await axios.get(
-      `https://economia.awesomeapi.com.br/json/daily/USD-BRL/${numero_dias.value}`
+      `https://economia.awesomeapi.com.br/json/daily/EUR-BRL/${numero_dias.value}`
     );
 
     // Processar os dados para obter os labels (datas) e os valores (ask)
@@ -104,7 +104,7 @@ const fetchChartData = async () => {
         labels: labels,
         datasets: [
           {
-            label: "Dólar (BRL)",
+            label: "Euro (BRL)",
             data: data,
             borderColor: "#42A5F5",
             backgroundColor: "rgba(66, 165, 245, 0.2)",

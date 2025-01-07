@@ -109,6 +109,12 @@
     <v-container>
       <VariacaoDolarChart />
     </v-container>
+    <v-container>
+      <VariacaoEuroChart />
+    </v-container>
+    <v-container>
+      <VariacaoBitcoinChart />
+    </v-container>
   </v-app>
 </template>
 
