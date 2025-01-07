@@ -83,7 +83,7 @@ const fetchChartData = async () => {
       const date = new Date(item.timestamp * 1000); // Converter timestamp para data
       return date.toLocaleDateString("pt-BR"); // Formatar a data no formato legível
     });
-    const data = response.data.map((item) => parseFloat(item.ask)); // Usar o valor "ask" como exemplo
+    const data = response.data.map((item) => parseFloat(item.bid)); // Usar o valor "ask" como exemplo
 
     // Se já existir uma instância do gráfico, destrói para criar um novo
     if (chartInstance.value) {
