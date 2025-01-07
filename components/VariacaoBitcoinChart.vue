@@ -104,7 +104,7 @@ const fetchChartData = async () => {
         labels: labels,
         datasets: [
           {
-            label: "Bitcoin (BRL)",
+            label: "Bitcoin (USD)",
             data: data,
             borderColor: "#42A5F5",
             backgroundColor: "rgba(66, 165, 245, 0.2)",
