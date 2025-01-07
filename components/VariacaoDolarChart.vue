@@ -108,8 +108,14 @@ const fetchChartData = async () => {
         },
         scales: {
           x: {
+            ticks: {
+              autoSkip: true, // Pular labels se necessário
+              maxRotation: 45, // Inclinação máxima dos labels
+              minRotation: 45,  // Inclinação mínima
+            },
             reverse: true,
           },
+          
           y: {
             beginAtZero: false,
             ticks: {
@@ -142,4 +148,5 @@ watch(numero_dias, () => {
   text-align: center;
   font-size: 1.25rem;
 }
+
 </style>
