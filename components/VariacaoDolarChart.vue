@@ -19,6 +19,11 @@
           @change="fetchChartData"
         />
       </v-col>
+      <v-col cols="1" class="d-flex justify-end mt-3 mr-3" @click="fetchChartData">
+        <v-btn>
+          <v-icon>mdi-refresh</v-icon>
+        </v-btn>
+      </v-col>
     </v-row>
     <v-row>
       <v-col>
@@ -31,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, nextTick } from "vue";
 import { Chart, registerables } from "chart.js";
 import axios from "axios";
 
@@ -43,6 +48,8 @@ const chartInstance = ref(null);
 
 // Definir os períodos (para exibir no autocomplete)
 const periodos = [
+  { text: "3 dias", value: 3 },
+  { text: "5 dias", value: 5 },
   { text: "7 dias", value: 7 },
   { text: "15 dias", value: 15 },
   { text: "30 dias", value: 30 },
@@ -56,6 +63,15 @@ const numero_dias = ref(7); // O número de dias solicitado (máximo 90)
 
 const fetchChartData = async () => {
   try {
+    // Espera até que o DOM seja completamente atualizado
+    await nextTick();
+
+    // Verificar se o canvas está disponível
+    if (!chartCanvas.value) {
+      console.error("Canvas não está disponível.");
+      return;
+    }
+
     // Captura a posição de rolagem antes de atualizar os dados
     const scrollPosition = window.scrollY;
 
@@ -64,20 +80,26 @@ const fetchChartData = async () => {
       `https://economia.awesomeapi.com.br/json/daily/USD-BRL/${numero_dias.value}`
     );
 
-    // Processar os dados para obter os labels (datas) e os valores (high)
+    // Processar os dados para obter os labels (datas) e os valores (ask)
     const labels = response.data.map((item) => {
       const date = new Date(item.timestamp * 1000); // Converter timestamp para data
       return date.toLocaleDateString("pt-BR"); // Formatar a data no formato legível
     });
-    const data = response.data.map((item) => parseFloat(item.high)); // Usar o valor "high" como exemplo
+    const data = response.data.map((item) => parseFloat(item.ask)); // Usar o valor "ask" como exemplo
 
     // Se já existir uma instância do gráfico, destrói para criar um novo
     if (chartInstance.value) {
       chartInstance.value.destroy();
     }
 
-    // Criar ou atualizar o gráfico com os novos dados
+    // Garantir que o contexto do canvas está disponível
     const ctx = chartCanvas.value.getContext("2d");
+    if (!ctx) {
+      console.error("Não foi possível obter o contexto do canvas.");
+      return;
+    }
+
+    // Criar ou atualizar o gráfico com os novos dados
     chartInstance.value = new Chart(ctx, {
       type: "line",
       data: {
@@ -115,7 +137,7 @@ const fetchChartData = async () => {
             },
             reverse: true,
           },
-          
+
           y: {
             beginAtZero: false,
             ticks: {
@@ -128,16 +150,19 @@ const fetchChartData = async () => {
       },
     });
 
+    // Restaurar a posição de rolagem
     window.scrollTo(0, scrollPosition);
   } catch (error) {
     console.error("Erro ao buscar os dados da API:", error);
   }
 };
 
+// Quando o componente é montado, carrega os dados
 onMounted(() => {
   fetchChartData();
 });
 
+// Observe mudanças no número de dias
 watch(numero_dias, () => {
   fetchChartData();
 });
@@ -148,5 +173,4 @@ watch(numero_dias, () => {
   text-align: center;
   font-size: 1.25rem;
 }
-
 </style>
