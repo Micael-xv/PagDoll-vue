@@ -1,9 +1,20 @@
 <template>
-  <v-app style="background-color: #f0f4f8;">
+  <v-app style="background-color: #f0f4f8">
     <v-container>
       <v-row class="mb-5">
         <v-col>
-          <h1 v-if="sm" class="text-h4 text-center font-weight-bold" style="color: #333;">
+          <h1
+            v-if="smAndUp"
+            class="text-h4 text-center font-weight-bold"
+            style="color: #333"
+          >
+            Cotação Atualizada a Cada 30 Segundos
+          </h1>
+          <h1
+            v-if="smAndDown"
+            class="text-h6 text-center font-weight-bold"
+            style="color: #333"
+          >
             Cotação Atualizada a Cada 30 Segundos
           </h1>
         </v-col>
@@ -14,15 +25,22 @@
           <v-card outlined>
             <v-row>
               <v-col>
-                <v-card-title class="font-weight-bold">Conversor de Moedas</v-card-title>
+                <v-card-title class="font-weight-bold"
+                  >Conversor de Moedas</v-card-title
+                >
                 <v-card-subtitle>Real</v-card-subtitle>
               </v-col>
-              <v-col class="d-flex justify-end">
-                <v-btn icon="mdi-refresh" color="success" variant="elevated" class="mr-2 mt-2" @click="updated">
+              <v-col v-if="smAndUp" class="d-flex justify-end">
+                <v-btn
+                  icon="mdi-refresh"
+                  color="success"
+                  variant="elevated"
+                  class="mr-2 mt-2"
+                  @click="updated"
+                >
                   <v-icon left>mdi-refresh</v-icon>
                 </v-btn>
               </v-col>
-
             </v-row>
             <v-card-text>
               <v-row>
@@ -39,7 +57,7 @@
                       'Bitcoin para Dólar',
                       'Real para Dólar',
                       'Real para Bitcoin',
-                      'Real para Euro'
+                      'Real para Euro',
                     ]"
                     @change="updateCotacao"
                   />
@@ -55,15 +73,10 @@
               </v-row>
               <v-row>
                 <v-col cols="12" md="2" class="d-flex align-center mt-n4">
-                  <p class="font-weight-bold">Total R$:</p>
+                  <p class="mt-n2 font-weight-bold">Total R$:</p>
                 </v-col>
                 <v-col cols="12" md="10">
-                  <v-text-field
-                    readonly
-                    :value="total"
-                    variant="solo"
-                    density="compact"
-                  />
+                  <v-text-field readonly :value="total" variant="outlined" />
                 </v-col>
               </v-row>
             </v-card-text>
@@ -74,33 +87,45 @@
       <v-row class="d-flx justify-center">
         <v-col cols="12" md="6">
           <v-card outlined class="mb-4">
-            <v-card-title class="font-weight-bold">Cotação de Moedas</v-card-title>
+            <v-card-title class="font-weight-bold"
+              >Cotação de Moedas</v-card-title
+            >
             <v-card-subtitle>Atualizações em Tempo Real</v-card-subtitle>
             <v-card-text>
-              <p class="font-weight-bold">Dólar: R$ {{ formatMoney(dolar.bid) }}</p>
-              <p class="font-weight-bold">Euro: R$ {{ formatMoney(euro.bid) }}</p>
-              <p class="font-weight-bold">Bitcoin: USD {{ formatMoney(bitcoin.bid) }}</p>
+              <p class="font-weight-bold">
+                Dólar: R$ {{ formatMoney(dolar.bid) }}
+              </p>
+              <p class="font-weight-bold">
+                Euro: R$ {{ formatMoney(euro.bid) }}
+              </p>
+              <p class="font-weight-bold">
+                Bitcoin: USD {{ formatMoney(bitcoin.bid) }}
+              </p>
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
+    </v-container>
+    <v-container>
+      <VariacaoDolarChart />
     </v-container>
   </v-app>
 </template>
 
 <script setup>
 import { useDisplay } from "vuetify";
-const { sm } = useDisplay();
+const { smAndUp, smAndDown } = useDisplay();
 
 useHead({
   title: `Conversor de Moedas`,
-  meta: [{ 
-    name: 'description', 
-    content: 'Conversor de Moedas' },
+  meta: [
+    {
+      name: "description",
+      content: "Conversor de Moedas",
+    },
   ],
-})
+});
 </script>
-
 
 <script>
 export default {
@@ -109,7 +134,7 @@ export default {
       dolar: {},
       euro: {},
       bitcoin: {},
-      selectedCurrency: '',
+      selectedCurrency: "",
       amount: null,
       total: null,
     };
@@ -127,7 +152,7 @@ export default {
       await this.getDolar();
       await this.getEuro();
       await this.getBitcoin();
-      this.$toast.success('Cotações atualizadas com sucesso!');
+      this.$toast.success("Cotações atualizadas com sucesso!");
     },
 
     setTimeout() {
@@ -148,7 +173,7 @@ export default {
         const response = await this.$api.get("/USD-BRL");
         this.dolar = response.USDBRL;
       } catch (error) {
-        console.error('Erro ao buscar cotação do dólar', error);
+        console.error("Erro ao buscar cotação do dólar", error);
       }
     },
 
@@ -157,7 +182,7 @@ export default {
         const response = await this.$api.get("/EUR-BRL");
         this.euro = response.EURBRL;
       } catch (error) {
-        console.error('Erro ao buscar cotação do euro', error);
+        console.error("Erro ao buscar cotação do euro", error);
       }
     },
 
@@ -166,7 +191,7 @@ export default {
         const response = await this.$api.get("/BTC-USD");
         this.bitcoin = response.BTCUSD;
       } catch (error) {
-        console.error('Erro ao buscar cotação do bitcoin', error);
+        console.error("Erro ao buscar cotação do bitcoin", error);
       }
     },
 
@@ -174,7 +199,7 @@ export default {
       if (value && !isNaN(value)) {
         return parseFloat(value).toFixed(2);
       }
-      return 'Carregando...';
+      return "Carregando...";
     },
 
     updateCotacao() {
@@ -188,19 +213,19 @@ export default {
       }
 
       let rate;
-      if (this.selectedCurrency === 'Dólar para Real') {
+      if (this.selectedCurrency === "Dólar para Real") {
         rate = this.dolar.bid;
-      } else if (this.selectedCurrency === 'Euro para Real') {
+      } else if (this.selectedCurrency === "Euro para Real") {
         rate = this.euro.bid;
-      } else if (this.selectedCurrency === 'Bitcoin para Real') {
+      } else if (this.selectedCurrency === "Bitcoin para Real") {
         rate = this.bitcoin.bid * this.dolar.bid;
-      } else if (this.selectedCurrency === 'Bitcoin para Dólar') {
+      } else if (this.selectedCurrency === "Bitcoin para Dólar") {
         rate = this.bitcoin.bid;
-      } else if (this.selectedCurrency === 'Real para Dólar') {
+      } else if (this.selectedCurrency === "Real para Dólar") {
         rate = 1 / this.dolar.bid;
-      } else if (this.selectedCurrency === 'Real para Bitcoin') {
+      } else if (this.selectedCurrency === "Real para Bitcoin") {
         rate = 1 / (this.bitcoin.bid * this.dolar.bid);
-      } else if (this.selectedCurrency === 'Real para Euro') {
+      } else if (this.selectedCurrency === "Real para Euro") {
         rate = 1 / this.euro.bid;
       }
 
