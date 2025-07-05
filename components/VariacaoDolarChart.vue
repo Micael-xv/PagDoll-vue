@@ -20,7 +20,7 @@
         />
       </v-col>
       <v-col cols="1" class="d-flex justify-end mt-3 mr-3">
-        <v-btn icon="mdi-refresh" color="success" @click="fetchChartData"/>
+        <v-btn icon="mdi-refresh" color="success" @click="fetchChartData" />
       </v-col>
     </v-row>
     <v-row>
@@ -38,6 +38,9 @@ import { ref, onMounted, watch, nextTick } from "vue";
 import { Chart, registerables } from "chart.js";
 import axios from "axios";
 
+// Acessar o toast
+const { $toast } = useNuxtApp();
+
 // Registrar todos os componentes necessários do Chart.js
 Chart.register(...registerables);
 
@@ -53,7 +56,7 @@ const periodos = [
   { text: "30 dias", value: 30 },
   { text: "45 dias", value: 45 },
   { text: "60 dias", value: 60 },
-  { text: "90 dias", value: 90 }
+  { text: "90 dias", value: 90 },
 ];
 
 // Inicializar o número de dias com o valor padrão de 7
@@ -67,6 +70,7 @@ const fetchChartData = async () => {
     // Verificar se o canvas está disponível
     if (!chartCanvas.value) {
       console.error("Canvas não está disponível.");
+      $toast.error("Erro ao carregar o gráfico.");
       return;
     }
 
@@ -131,7 +135,7 @@ const fetchChartData = async () => {
             ticks: {
               autoSkip: true, // Pular labels se necessário
               maxRotation: 45, // Inclinação máxima dos labels
-              minRotation: 45,  // Inclinação mínima
+              minRotation: 45, // Inclinação mínima
             },
             reverse: true,
           },
@@ -150,8 +154,12 @@ const fetchChartData = async () => {
 
     // Restaurar a posição de rolagem
     window.scrollTo(0, scrollPosition);
+
+    // Mostrar toast de sucesso
+    $toast.success("Dólar atualizado com sucesso!");
   } catch (error) {
     console.error("Erro ao buscar os dados da API:", error);
+    $toast.error("Erro ao atualizar os dados. Tente novamente.");
   }
 };
 
